@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Placement & Skill Guidance - Smart College Helper Portal{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1 class="welcome-title">
+        <i class="fas fa-briefcase"></i> Placement & Skill Guidance
+    </h1>
+    <p class="welcome-subtitle">Choose your career path and get a personalized roadmap</p>
+</div>
+
+{% if roadmaps %}
+<div class="roadmap-grid">
+    {% for roadmap in roadmaps %}
+    <div class="roadmap-card">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+            <div style="font-size: 2.5rem;">
+                {% if roadmap.career_path == 'data_analyst' %}
+                <i class="fas fa-chart-bar"></i>
+                {% elif roadmap.career_path == 'ai_ml_engineer' %}
+                <i class="fas fa-brain"></i>
+                {% elif roadmap.career_path == 'web_developer' %}
+                <i class="fas fa-code"></i>
+                {% elif roadmap.career_path == 'software_engineer' %}
+                <i class="fas fa-laptop-code"></i>
+                {% elif roadmap.career_path == 'cybersecurity' %}
+                <i class="fas fa-shield-alt"></i>
+                {% else %}
+                <i class="fas fa-briefcase"></i>
+                {% endif %}
+            </div>
+            <h2 class="roadmap-title">{{ roadmap.title }}</h2>
+        </div>
+
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+            {{ roadmap.description }}
+        </p>
+
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">
+                <i class="fas fa-star"></i> Key Skills
+            </h3>
+            <ul class="skills-list">
+                {% for skill in roadmap.skills %}
+                <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">
+                <i class="fas fa-tools"></i> Tools & Technologies
+            </h3>
+            <ul class="tools-list">
+                {% for tool in roadmap.tools %}
+                <li>{{ tool }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">
+                <i class="fas fa-route"></i> Learning Path
+            </h3>
+            <ol style="margin-left: 1.5rem; color: var(--text-secondary);">
+                {% for step in roadmap.learning_order %}
+                <li style="margin-bottom: 0.5rem;">{{ step }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+
+        <div style="padding: 1rem; background: var(--bg-glass-hover); border-radius: 12px; margin-top: 1rem;">
+            <p style="margin: 0; color: var(--text-secondary);">
+                <i class="fas fa-clock"></i> <strong>Estimated Duration:</strong> {{ roadmap.estimated_duration }}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="glass-card" style="text-align: center; padding: 3rem;">
+    <i class="fas fa-route" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+    <h3>No roadmaps available</h3>
+    <p style="color: var(--text-secondary);">Roadmaps will be added soon. Check back later!</p>
+</div>
+{% endif %}
+
+<!-- AI Suggestion Section -->
+<div class="glass-card" style="margin-top: 3rem; text-align: center;">
+    <h2 style="margin-bottom: 1rem;">
+        <i class="fas fa-robot"></i> Need Help Choosing?
+    </h2>
+    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+        Ask our AI Assistant to help you choose the best career path based on your interests and skills!
+    </p>
+    <a href="{% url 'ai_helper:ai_assistant' %}" class="btn">
+        <i class="fas fa-comments"></i> Chat with AI Assistant
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Post Notice - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1 class="welcome-title">
+        <i class="fas fa-bullhorn"></i> Post Notice
+    </h1>
+</div>
+
+<div class="glass-card" style="max-width: 800px; margin: 0 auto;">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="form-label">
+                <i class="fas fa-heading"></i> Notice Title
+            </label>
+            <input type="text" name="title" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">
+                <i class="fas fa-align-left"></i> Content
+            </label>
+            <textarea name="content" class="form-textarea" rows="6" required placeholder="Enter notice content..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">
+                <i class="fas fa-file"></i> Attachment (Optional)
+            </label>
+            <input type="file" name="file" class="form-input" accept=".pdf,.doc,.docx,.jpg,.png">
+        </div>
+
+        <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" name="is_important" style="width: auto;">
+                <span>Mark as Important</span>
+            </label>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn">
+                <i class="fas fa-paper-plane"></i> Post Notice
+            </button>
+            <a href="{% url 'core:admin_panel' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Admin Panel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

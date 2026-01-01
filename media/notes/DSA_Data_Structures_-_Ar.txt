@@ -1,0 +1,5 @@
+Sample Notes: Data Structures - Arrays and Linked Lists
+
+Detailed notes on Arrays, Linked Lists, Stacks, and Queues with examples and algorithms.
+
+This is a placeholder file. Please upload actual notes through the admin panel.

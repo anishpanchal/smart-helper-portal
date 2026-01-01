@@ -1,0 +1,5 @@
+Sample Notes: Web Development - HTML, CSS, JavaScript
+
+Complete frontend development notes covering HTML5, CSS3, JavaScript ES6+, and DOM manipulation.
+
+This is a placeholder file. Please upload actual notes through the admin panel.

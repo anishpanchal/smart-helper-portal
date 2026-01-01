@@ -1,0 +1,5 @@
+Sample Notes: Data Structures - Trees and Graphs
+
+Binary Trees, BST, AVL Trees, Graph representation, BFS, DFS, and Graph Algorithms.
+
+This is a placeholder file. Please upload actual notes through the admin panel.

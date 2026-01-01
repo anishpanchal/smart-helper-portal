@@ -1,0 +1,5 @@
+Sample Notes: Operating Systems - Process Management
+
+Notes on Process Management, CPU Scheduling, Deadlocks, and Memory Management in Operating Systems.
+
+This is a placeholder file. Please upload actual notes through the admin panel.

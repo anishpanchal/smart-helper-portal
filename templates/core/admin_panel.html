@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Panel - Smart College Helper Portal{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1 class="welcome-title">
+        <i class="fas fa-cog"></i> Admin Panel
+    </h1>
+    <p class="welcome-subtitle">Manage content and view analytics</p>
+</div>
+
+<!-- Statistics Cards -->
+<div class="dashboard-grid">
+    <div class="dashboard-card">
+        <div class="card-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <h3 class="card-title">Total Students</h3>
+        <div class="card-value">{{ total_students }}</div>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-icon">
+            <i class="fas fa-book"></i>
+        </div>
+        <h3 class="card-title">Total Notes</h3>
+        <div class="card-value">{{ total_notes }}</div>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-icon">
+            <i class="fas fa-bullhorn"></i>
+        </div>
+        <h3 class="card-title">Total Notices</h3>
+        <div class="card-value">{{ total_notices }}</div>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-icon">
+            <i class="fas fa-comments"></i>
+        </div>
+        <h3 class="card-title">AI Queries</h3>
+        <div class="card-value">{{ total_queries }}</div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="glass-card" style="margin-top: 2rem;">
+    <h2 style="margin-bottom: 1.5rem;">
+        <i class="fas fa-bolt"></i> Quick Actions
+    </h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+        <a href="{% url 'core:admin_upload_note' %}" class="btn" style="text-align: center;">
+            <i class="fas fa-upload"></i> Upload Note
+        </a>
+        <a href="{% url 'core:admin_upload_notice' %}" class="btn" style="text-align: center;">
+            <i class="fas fa-bullhorn"></i> Post Notice
+        </a>
+        <a href="/admin/" class="btn btn-secondary" style="text-align: center;">
+            <i class="fas fa-cog"></i> Django Admin
+        </a>
+    </div>
+</div>
+
+<!-- Recent AI Queries -->
+{% if recent_queries %}
+<div class="glass-card" style="margin-top: 2rem;">
+    <h2 style="margin-bottom: 1.5rem;">
+        <i class="fas fa-comments"></i> Recent AI Queries
+    </h2>
+    <div style="max-height: 400px; overflow-y: auto;">
+        {% for query in recent_queries %}
+        <div style="padding: 1rem; margin-bottom: 1rem; background: var(--bg-glass-hover); border-radius: 12px; border-left: 3px solid var(--accent-primary);">
+            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                <strong>{{ query.user.username }}</strong>
+                <small style="color: var(--text-secondary);">{{ query.created_at|date:"M d, Y H:i" }}</small>
+            </div>
+            <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">
+                <strong>Q:</strong> {{ query.query|truncatewords:30 }}
+            </p>
+            <p style="color: var(--text-primary); font-size: 0.9rem;">
+                <strong>A:</strong> {{ query.response|truncatewords:20 }}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

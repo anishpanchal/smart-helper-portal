@@ -1,0 +1,5 @@
+Sample Notes: Machine Learning Fundamentals
+
+Introduction to Machine Learning, Supervised Learning, Unsupervised Learning, and Neural Networks basics.
+
+This is a placeholder file. Please upload actual notes through the admin panel.

@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Attendance Tracker - Smart College Helper Portal{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1 class="welcome-title">
+        <i class="fas fa-calendar-check"></i> Attendance Tracker
+    </h1>
+    <p class="welcome-subtitle">Track your attendance and stay on top of your classes</p>
+</div>
+
+<!-- Main Attendance Card -->
+<div class="glass-card" style="margin-bottom: 2rem;">
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="font-size: 4rem; font-weight: bold; background: {% if is_eligible %}var(--success){% else %}var(--warning){% endif %}; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1rem;">
+            {{ attendance_percentage }}%
+        </div>
+        <h2 style="margin-bottom: 0.5rem;">Overall Attendance</h2>
+        {% if is_eligible %}
+        <span class="badge badge-success" style="font-size: 1rem; padding: 0.5rem 1.5rem;">
+            <i class="fas fa-check-circle"></i> Eligible for Exams
+        </span>
+        {% else %}
+        <span class="badge badge-warning" style="font-size: 1rem; padding: 0.5rem 1.5rem;">
+            <i class="fas fa-exclamation-triangle"></i> Below Minimum Requirement
+        </span>
+        {% endif %}
+    </div>
+
+    <!-- Progress Bar -->
+    <div style="margin: 2rem 0;">
+        <div style="background: var(--bg-glass-hover); height: 20px; border-radius: 15px; overflow: hidden; position: relative; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);">
+            <div style="height: 100%; background: {% if is_eligible %}var(--success){% else %}var(--warning){% endif %}; width: {{ attendance_percentage }}%; transition: width 0.5s ease; border-radius: 15px; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                <div style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 3px; height: 100%; background: rgba(255,255,255,0.5);"></div>
+            </div>
+            <!-- Target Line -->
+            <div style="position: absolute; left: 75%; top: 0; bottom: 0; width: 2px; background: var(--text-primary); opacity: 0.5;"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+            <span>0%</span>
+            <span style="color: var(--text-primary); font-weight: 600;">Target: 75%</span>
+            <span>100%</span>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Grid -->
+<div class="dashboard-grid">
+    <div class="dashboard-card">
+        <div class="card-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3 class="card-title">Classes Attended</h3>
+        <div class="card-value">{{ attended_classes }}</div>
+        <p class="card-description">Out of {{ total_classes }} total classes</p>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-icon">
+            <i class="fas fa-times-circle"></i>
+        </div>
+        <h3 class="card-title">Classes Missed</h3>
+        <div class="card-value" style="color: var(--error);">{{ missed_classes }}</div>
+        <p class="card-description">Absent from classes</p>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-icon">
+            <i class="fas fa-calendar-alt"></i>
+        </div>
+        <h3 class="card-title">Remaining Classes</h3>
+        <div class="card-value">{{ classes_remaining }}</div>
+        <p class="card-description">Classes left in semester</p>
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-icon">
+            <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="card-title">Can Miss</h3>
+        <div class="card-value" style="color: {% if can_miss > 0 %}var(--success){% else %}var(--error){% endif %};">{{ can_miss }}</div>
+        <p class="card-description">More classes to maintain 75%</p>
+    </div>
+</div>
+
+<!-- Detailed Information -->
+<div class="glass-card" style="margin-top: 2rem;">
+    <h2 style="margin-bottom: 1.5rem;">
+        <i class="fas fa-info-circle"></i> Attendance Information
+    </h2>
+
+    <div style="display: grid; gap: 1.5rem;">
+        <div style="padding: 1rem; background: var(--bg-glass-hover); border-radius: 12px; border-left: 4px solid var(--accent-primary);">
+            <h3 style="margin-bottom: 0.5rem;">
+                <i class="fas fa-graduation-cap"></i> Exam Eligibility
+            </h3>
+            <p style="color: var(--text-secondary); margin: 0;">
+                {% if is_eligible %}
+                ✅ You are eligible to appear for all examinations. Your attendance is above the minimum requirement of 75%.
+                {% else %}
+                ⚠️ You need to improve your attendance to be eligible for examinations. Aim for at least 75% attendance.
+                {% endif %}
+            </p>
+        </div>
+
+        <div style="padding: 1rem; background: var(--bg-glass-hover); border-radius: 12px; border-left: 4px solid var(--success);">
+            <h3 style="margin-bottom: 0.5rem;">
+                <i class="fas fa-lightbulb"></i> Tips to Improve Attendance
+            </h3>
+            <ul style="color: var(--text-secondary); margin: 0; padding-left: 1.5rem;">
+                <li>Set daily reminders for your classes</li>
+                <li>Plan your schedule in advance</li>
+                <li>Avoid unnecessary absences</li>
+                <li>Communicate with professors if you need to miss a class</li>
+                <li>Track your attendance regularly</li>
+            </ul>
+        </div>
+
+        {% if not is_eligible %}
+        <div style="padding: 1rem; background: rgba(245, 158, 11, 0.1); border-radius: 12px; border-left: 4px solid var(--warning);">
+            <h3 style="margin-bottom: 0.5rem; color: var(--warning);">
+                <i class="fas fa-exclamation-triangle"></i> Action Required
+            </h3>
+            <p style="color: var(--text-secondary); margin: 0;">
+                You are currently at <strong>{{ attendance_percentage }}%</strong> attendance.
+                You need to attend at least <strong>{{ classes_needed }}</strong> more classes to reach the 75% threshold.
+                {% if can_miss <= 0 %}
+                <br><strong style="color: var(--error);">Warning:</strong> You have exceeded the maximum allowed absences. Contact your academic advisor immediately.
+                {% endif %}
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="glass-card" style="margin-top: 2rem; text-align: center;">
+    <h2 style="margin-bottom: 1rem;">
+        <i class="fas fa-bolt"></i> Quick Actions
+    </h2>
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="{% url 'core:dashboard' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+        <a href="{% url 'core:study_planner' %}" class="btn">
+            <i class="fas fa-calendar-alt"></i> Create Study Plan
+        </a>
+        <a href="{% url 'ai_helper:ai_assistant' %}" class="btn">
+            <i class="fas fa-robot"></i> Ask AI for Help
+        </a>
+    </div>
+</div>
+
+<style>
+    .glass-card {
+        animation: fadeInUp 0.6s ease;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,5 @@
+Sample Notes: Computer Networks - OSI Model and TCP/IP
+
+Complete notes on Network Layers, Protocols, TCP/IP Model, Routing, and Network Security basics.
+
+This is a placeholder file. Please upload actual notes through the admin panel.

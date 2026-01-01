@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Smart College Helper Portal{% endblock %}</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <!-- Page Loader -->
+    <div class="page-loader">
+        <div class="loader-content">
+            <div class="ai-loader">
+                <div class="ai-dot"></div>
+                <div class="ai-dot"></div>
+                <div class="ai-dot"></div>
+            </div>
+            <p>AI is initializing...</p>
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Smart College Helper</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{% url 'core:dashboard' %}" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="{% url 'ai_helper:ai_assistant' %}" class="nav-link"><i class="fas fa-robot"></i> AI Assistant</a></li>
+                <li><a href="{% url 'core:study_planner' %}" class="nav-link"><i class="fas fa-calendar-alt"></i> Study Planner</a></li>
+                <li><a href="{% url 'core:notes' %}" class="nav-link"><i class="fas fa-book"></i> Notes</a></li>
+                <li><a href="{% url 'core:placement_guidance' %}" class="nav-link"><i class="fas fa-briefcase"></i> Placement</a></li>
+                {% if user.is_admin %}
+                <li><a href="{% url 'core:admin_panel' %}" class="nav-link"><i class="fas fa-cog"></i> Admin</a></li>
+                {% endif %}
+                <li><a href="{% url 'users:logout' %}" class="nav-link logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+            <div class="nav-user">
+                <i class="fas fa-user-circle"></i>
+                <span>{{ user.username }}</span>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="message message-{{ message.tags }}">
+            <i class="fas fa-{% if message.tags == 'error' %}exclamation-circle{% elif message.tags == 'success' %}check-circle{% else %}info-circle{% endif %}"></i>
+            <span>{{ message }}</span>
+            <button class="message-close" onclick="this.parentElement.remove()">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Smart College Helper Portal. Built with AI & Django.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

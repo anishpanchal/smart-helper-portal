@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Notes & Resources - Smart College Helper Portal{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1 class="welcome-title">
+        <i class="fas fa-book"></i> Notes & Resources Hub
+    </h1>
+    <p class="welcome-subtitle">Access study materials and course notes</p>
+</div>
+
+<!-- Filters -->
+<div class="glass-card" style="margin-bottom: 2rem;">
+    <form method="GET" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: end;">
+        <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label class="form-label">Filter by Semester</label>
+            <select name="semester" class="form-select">
+                <option value="">All Semesters</option>
+                {% for i in "12345678"|make_list %}
+                <option value="{{ i }}" {% if selected_semester == i %}selected{% endif %}>Semester {{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group" style="flex: 1; min-width: 200px;">
+            <label class="form-label">Filter by Subject</label>
+            <select name="subject" class="form-select">
+                <option value="">All Subjects</option>
+                {% for subject in subjects %}
+                <option value="{{ subject.id }}" {% if selected_subject == subject.id|stringformat:"s" %}selected{% endif %}>{{ subject.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn">
+            <i class="fas fa-filter"></i> Filter
+        </button>
+        <a href="{% url 'core:notes' %}" class="btn btn-secondary">
+            <i class="fas fa-redo"></i> Reset
+        </a>
+    </form>
+</div>
+
+<!-- Notes Grid -->
+{% if notes %}
+<div class="notes-grid">
+    {% for note in notes %}
+    <div class="note-card">
+        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+            <div>
+                <h3 style="margin-bottom: 0.5rem;">{{ note.title }}</h3>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                    <i class="fas fa-book"></i> {{ note.subject.name }} (Sem {{ note.subject.semester }})
+                </p>
+            </div>
+            <span class="badge">{{ note.subject.code }}</span>
+        </div>
+
+        {% if note.description %}
+        <p style="color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.9rem;">
+            {{ note.description|truncatewords:15 }}
+        </p>
+        {% endif %}
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+            <small style="color: var(--text-secondary);">
+                <i class="fas fa-download"></i> {{ note.download_count }} downloads
+            </small>
+            <a href="{% url 'core:download_note' note.id %}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                <i class="fas fa-download"></i> Download
+            </a>
+        </div>
+
+        <small style="color: var(--text-secondary); display: block; margin-top: 0.5rem;">
+            Uploaded: {{ note.uploaded_at|date:"M d, Y" }}
+        </small>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="glass-card" style="text-align: center; padding: 3rem;">
+    <i class="fas fa-inbox" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+    <h3>No notes available</h3>
+    <p style="color: var(--text-secondary);">Check back later or contact admin to upload notes.</p>
+</div>
+{% endif %}
+{% endblock %}

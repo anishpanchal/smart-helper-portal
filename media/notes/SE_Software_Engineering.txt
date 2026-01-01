@@ -1,0 +1,5 @@
+Sample Notes: Software Engineering - SDLC and Agile
+
+Software Development Life Cycle, Agile Methodology, UML Diagrams, and Software Testing concepts.
+
+This is a placeholder file. Please upload actual notes through the admin panel.

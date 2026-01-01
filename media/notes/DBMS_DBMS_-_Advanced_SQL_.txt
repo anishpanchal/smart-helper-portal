@@ -1,0 +1,5 @@
+Sample Notes: DBMS - Advanced SQL Queries
+
+Advanced SQL topics including Joins, Subqueries, Views, Stored Procedures, and Triggers.
+
+This is a placeholder file. Please upload actual notes through the admin panel.

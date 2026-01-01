@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Upload Note - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1 class="welcome-title">
+        <i class="fas fa-upload"></i> Upload Note
+    </h1>
+</div>
+
+<div class="glass-card" style="max-width: 800px; margin: 0 auto;">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="form-label">
+                <i class="fas fa-heading"></i> Note Title
+            </label>
+            <input type="text" name="title" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">
+                <i class="fas fa-book"></i> Subject
+            </label>
+            <select name="subject" class="form-select" required>
+                <option value="">Select Subject</option>
+                {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.name }} ({{ subject.code }}) - Sem {{ subject.semester }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">
+                <i class="fas fa-file"></i> Note File (PDF/DOCX)
+            </label>
+            <input type="file" name="file" class="form-input" accept=".pdf,.doc,.docx" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">
+                <i class="fas fa-align-left"></i> Description (Optional)
+            </label>
+            <textarea name="description" class="form-textarea" rows="4" placeholder="Brief description of the note..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn">
+                <i class="fas fa-upload"></i> Upload Note
+            </button>
+            <a href="{% url 'core:admin_panel' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Admin Panel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

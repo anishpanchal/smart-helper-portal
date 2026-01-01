@@ -1,0 +1,5 @@
+Sample Notes: DBMS Complete Notes - Chapter 1 to 5
+
+Complete notes covering Introduction to Database, ER Model, Relational Model, SQL Basics, and Normalization.
+
+This is a placeholder file. Please upload actual notes through the admin panel.
